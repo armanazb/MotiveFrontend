@@ -1,18 +1,15 @@
-import { useState } from "react";
 import { Calendar, DollarSign, Plane, Menu, X } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
-import 
+
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
   return (
     <div className="min-h-screen bg-base-100">
-  
-  <Navbar />
-
+      <Navbar />
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden">
@@ -32,7 +29,6 @@ export default function HomePage() {
           </ul>
         </div>
       )}
-
       {/* Hero Section */}
       <section className="hero min-h-[calc(100vh-4rem)] bg-base-200">
         <div className="hero-content text-center">
@@ -42,13 +38,12 @@ export default function HomePage() {
               Your AI assistant for budget-friendly planning and booking. Let
               Motive handle the details while you focus on the experience.
             </p>
-            <Link to="/get-started" className="btn btn-primary">
+            <Link to="/maps" className="btn btn-primary">
               Get Started
             </Link>
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -89,7 +84,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="bg-primary text-primary-content py-20">
         <div className="container mx-auto px-4 text-center">
@@ -104,7 +98,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
         <div className="grid grid-flow-col gap-4">

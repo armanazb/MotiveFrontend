@@ -8,7 +8,7 @@ interface RouteGuardProps {
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   // Check if token exists in localStorage
-  const token = localStorage.getItem("token"); // You can change this to sessionStorage if needed
+  const token = localStorage.getItem("authToken"); // You can change this to sessionStorage if needed
 
   if (!token) {
     // Redirect to login or any other route if token is not present

@@ -9,11 +9,9 @@ import FeaturesPage from "./pages/features";
 import ProfilePage from "./pages/profile";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
-
+import RouteGuard from "./libs/routeGuard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
 
 function App() {
   return (
@@ -21,7 +19,14 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/pricing" element={<MotivePricingPage />} />
-        <Route path="/maps" element={<ChatbotSearch />} />
+        <Route
+          path="/maps"
+          element={
+            <RouteGuard>
+              <ChatbotSearch />
+            </RouteGuard>
+          }
+        />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/profile" element={<ProfilePage />} />

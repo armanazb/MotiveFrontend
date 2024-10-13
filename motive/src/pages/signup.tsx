@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import RegisterUser from "../services/signup";
@@ -24,14 +23,7 @@ export default function SignupPage() {
       toast.error("Signup failed");
       console.error("Login failed", error);
     }
-
-import React, { useState } from 'react';
-import Navbar from "../components/navbar";
-
-export default function SignupPage() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
+  };
 
   return (
     <>
@@ -46,11 +38,7 @@ export default function SignupPage() {
               <label className="label" htmlFor="username">
                 <span className="label-text">Username</span>
               </label>
-
               {/* <input
-=======
-              <input
-
                 type="text"
                 id="username"
                 placeholder="username"
@@ -58,11 +46,7 @@ export default function SignupPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-
               /> */}
-
-              />
-
             </div>
 
             {/* Email Field */}
@@ -99,7 +83,6 @@ export default function SignupPage() {
 
             {/* Submit Button */}
             <div className="form-control mt-6">
-
               <button type="submit" className="btn btn-primary">
                 Sign Up
               </button>
@@ -112,13 +95,6 @@ export default function SignupPage() {
                   Login here
                 </a>
               </p>
-=======
-              <button type="submit" className="btn btn-primary">Sign Up</button>
-            </div>
-
-            <div className="text-center mt-4">
-              <p>Already have an account? <a href="/login" className="text-blue-500">Login here</a></p>
-
             </div>
           </form>
         </div>
