@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [auth, setauth] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setauth(true);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -38,12 +45,16 @@ const Navbar = () => {
             <li>
               <Link to="/Contact">Contact</Link>
             </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
+            {auth === true && (
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+            )}
+            {auth === false ? (
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            ) : null}
           </ul>
         </div>
         <div className="flex-none md:hidden">

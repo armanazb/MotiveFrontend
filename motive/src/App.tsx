@@ -10,6 +10,8 @@ import ProfilePage from "./pages/profile";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 import RouteGuard from "./libs/routeGuard";
+import RouteGuard2 from "./libs/routeGaurd2";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,8 +32,22 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route
+          path="/login"
+          element={
+            <RouteGuard2>
+              <LoginPage />
+            </RouteGuard2>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RouteGuard2>
+              <SignupPage />
+            </RouteGuard2>
+          }
+        />
       </Routes>
       <ToastContainer
         position="top-right"

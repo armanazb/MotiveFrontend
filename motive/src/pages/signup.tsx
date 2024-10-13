@@ -33,22 +33,6 @@ export default function SignupPage() {
           <form onSubmit={handleSubmit} className="card-body">
             <h2 className="card-title text-2xl font-bold mb-6">Sign Up</h2>
 
-            {/* Username Field */}
-            <div className="form-control">
-              <label className="label" htmlFor="username">
-                <span className="label-text">Username</span>
-              </label>
-              {/* <input
-                type="text"
-                id="username"
-                placeholder="username"
-                className="input input-bordered"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              /> */}
-            </div>
-
             {/* Email Field */}
             <div className="form-control">
               <label className="label" htmlFor="email">

@@ -3,6 +3,9 @@ import { Search, Send, X } from "lucide-react";
 import Navbar from "../components/navbar";
 import { Loader } from "@googlemaps/js-api-loader";
 import OpenAPIService from "../services/openAPI";
+import ai2 from "../assets/ai2.png";
+import axiosInstance from "../libs/interceptor";
+
 export default function ChatbotSearch() {
   const [searchQuery, setSearchQuery] = useState(""); // State for location search
   const [isNearMe, setIsNearMe] = useState(false); // Checkbox state for "near me"
@@ -19,8 +22,8 @@ export default function ChatbotSearch() {
 
   const placesService = useRef(null); // Ref for PlacesService
   const [distances, setDistances] = useState([]); // State to store distances
-  const [groupType, setGroupType] = useState('1 person'); // State to store the group type
-
+  const [groupType, setGroupType] = useState(1); // State to store the group type
+  const [loading, setLoading] = useState(false);
   const googleMapsApiKey = "AIzaSyAAAG-NRSBgZJeJPa6mPlzIrsAO0_5lN30";
 
   useEffect(() => {
@@ -110,45 +113,77 @@ export default function ChatbotSearch() {
   };
 
   // Function to handle nearby search
-  const handleNearbySearch = (location, keyword) => {
+  const handleNearbySearch = async (location, keyword) => {
     const request = {
       location,
       radius: 5000, // 5km radius
       keyword: keyword || "restaurants", // Default to 'restaurants'
     };
 
-    placesService.current.nearbySearch(request, (results, status) => {
+    placesService.current.nearbySearch(request, async (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        setSearchResults(results);
+        try {
+          console.log("Search results:", results);
+          setLoading(true);
+          // Loop through results and extract necessary data
+          const refinedResults = results.map((place) => ({
+            name: place.name,
+            types: place.types || [], // First two types or an empty array if not available
+            price_level: place.price_level || 0, // Default to 0 if price_level is missing
+            group_size: groupType,
+            budget: budget,
+          }));
 
-        // Clear existing markers
-        mapInstance.current.clearOverlays?.();
+          // Perform async API call to post refined search results
+          const response = await axiosInstance.post(
+            "/api/activities",
+            JSON.stringify({ results: refinedResults }), // Send refined data
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log(response.data.places);
 
-        // Add markers for each result
-        const distancesArray = [];
-        results.forEach((place) => {
-          new google.maps.Marker({
-            position: place.geometry.location,
-            map: mapInstance.current,
-            title: place.name,
+          const res = response.data.places;
+          console.log("Refined search results:", res);
+
+          setSearchResults(res);
+          setLoading(false);
+
+          // Clear existing markers
+          mapInstance.current.clearOverlays?.();
+
+          // Add markers for each result
+          const distancesArray = [];
+          results.forEach((place) => {
+            new google.maps.Marker({
+              position: place.geometry.location,
+              map: mapInstance.current,
+              title: place.name,
+            });
+
+            // Calculate distance if current location is available
+            if (currentLocation) {
+              const distance =
+                google.maps.geometry.spherical.computeDistanceBetween(
+                  new google.maps.LatLng(currentLocation),
+                  place.geometry.location
+                );
+              distancesArray.push((distance / 1000).toFixed(2)); // Distance in kilometers
+            }
           });
+          setDistances(distancesArray);
 
-          // Calculate distance if current location is available
-          if (currentLocation) {
-            const distance =
-              google.maps.geometry.spherical.computeDistanceBetween(
-                new google.maps.LatLng(currentLocation),
-                place.geometry.location
-              );
-            distancesArray.push((distance / 1000).toFixed(2)); // Distance in kilometers
-          }
-        });
-        setDistances(distancesArray);
-
-        // Fit the map to show all results
-        const bounds = new google.maps.LatLngBounds();
-        results.forEach((place) => bounds.extend(place.geometry.location));
-        mapInstance.current.fitBounds(bounds);
+          // Fit the map to show all results
+          const bounds = new google.maps.LatLngBounds();
+          results.forEach((place) => bounds.extend(place.geometry.location));
+          mapInstance.current.fitBounds(bounds);
+        } catch (error) {
+          console.error("Error posting activities:", error);
+          alert("An error occurred while posting activities.");
+        }
       } else {
         alert("No places found. Please try again.");
       }
@@ -170,9 +205,27 @@ export default function ChatbotSearch() {
       });
     }
   };
+
   // Function to clear the search input
   const clearSearch = () => {
     setSearchQuery("");
+  };
+
+  const getPriceLevel = (priceLevel) => {
+    switch (priceLevel) {
+      case 0:
+        return "Unknown"; // Free places with no cost
+      case 1:
+        return "$ (Inexpensive)"; // Inexpensive places
+      case 2:
+        return "$ (Moderate)"; // Moderate pricing
+      case 3:
+        return "$ (Expensive)"; // Expensive places
+      case 4:
+        return "$ (Very Expensive)"; // Very expensive places
+      default:
+        return "Unknown"; // Handle cases where price level is not available
+    }
   };
 
   return (
@@ -196,10 +249,25 @@ export default function ChatbotSearch() {
               <h3 className="text-sm font-medium mb-2">Group Type</h3>
               <select
                 className="select select-bordered w-full"
-                value={groupType}
-                onChange={(e) => setGroupType(e.target.value)}
+                value={groupType === 5 ? "4+ people" : `${groupType} people`} // Map the state to the correct option value
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+
+                  // Convert the selected value to an integer or keep "4+" as a string
+                  if (selectedValue === "1 people") {
+                    setGroupType(1);
+                  } else if (selectedValue === "2 people") {
+                    setGroupType(2);
+                  } else if (selectedValue === "3 people") {
+                    setGroupType(3);
+                  } else if (selectedValue === "4 people") {
+                    setGroupType(4);
+                  } else {
+                    setGroupType(5); // For "4+ people" option
+                  }
+                }}
               >
-                <option value="1 person">1 Person</option>
+                <option value="1 people">1 Person</option>
                 <option value="2 people">2 People</option>
                 <option value="3 people">3 People</option>
                 <option value="4 people">4 People</option>
@@ -228,6 +296,24 @@ export default function ChatbotSearch() {
                     {activity}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Budget Slider */}
+            <div className="mb-4">
+              <h3 className="text-sm font-medium mb-2">Budget: ${budget}</h3>
+              <input
+                type="range"
+                className="range"
+                min="0"
+                max="1000"
+                step="50"
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
+              />
+              <div className="flex justify-between text-xs px-2">
+                <span>$0</span>
+                <span>$1000</span>
               </div>
             </div>
 
@@ -277,45 +363,37 @@ export default function ChatbotSearch() {
               </button>
             </div>
 
-            {/* Budget Slider */}
-            <div className="mb-4">
-              <h3 className="text-sm font-medium mb-2">Budget: ${budget}</h3>
-              <input
-                type="range"
-                className="range"
-                min="0"
-                max="1000"
-                step="50"
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-              />
-              <div className="flex justify-between text-xs px-2">
-                <span>$0</span>
-                <span>$1000</span>
-              </div>
-            </div>
-
             {/* Scrollable Section: Search Results + Chatbot */}
             <div className="flex-1 overflow-y-auto max-h-80">
               {/* Search Results */}
               <h3 className="text-sm font-medium mb-2">Search Results</h3>
-              {searchResults.map((result, index) => (
-                <div key={index} className="card bg-base-200 shadow-sm mb-2">
-                  <div className="card-body p-4 flex justify-between">
-                    <div>
-                      <h4 className="card-title text-sm">{result.name}</h4>
-                      <p className="text-xs">{result.vicinity}</p>
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {distances[index] ? `${distances[index]} km away` : ""}
+              {loading ? (
+                // Show loading indicator when loading is true
+                <div className="flex items-center justify-center">
+                  <span className="loading loading-spinner text-primary"></span>
+                </div>
+              ) : Array.isArray(searchResults) && searchResults.length > 0 ? (
+                searchResults.map((result, index) => (
+                  <div key={index} className="card bg-base-200 shadow-sm mb-2">
+                    <div className="card-body p-4 flex justify-between">
+                      <div>
+                        <h4 className="card-title text-sm">{result.name}</h4>
+                        <p className="text-xs">
+                          Price Level: {getPriceLevel(result.price_level)}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No search results found.</p>
+              )}
 
               {/* Chatbot Section */}
               <div className="bg-base-100 shadow-lg rounded-lg p-4 mt-4">
-                <h2 className="text-lg font-semibold mb-4">Chatbot</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  Let Chatbot Plan Your Day!
+                </h2>
                 <div className="h-40 overflow-y-auto mb-4">
                   {messages.map((message, index) => (
                     <div
@@ -324,11 +402,17 @@ export default function ChatbotSearch() {
                         message.role === "user" ? "chat-end" : "chat-start"
                       }`}
                     >
-                      <div className="chat-image avatar">
-                        <div className="w-10 rounded-full">
-                          <img src="/placeholder.svg" alt="user" />
+                      {message.role !== "user" && (
+                        <div className="chat-image avatar">
+                          <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+                            <img
+                              src={ai2}
+                              alt="AI Avatar"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <div
                         className={`chat-bubble ${
                           message.role === "user"

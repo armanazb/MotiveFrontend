@@ -35,8 +35,9 @@ export default function HomePage() {
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Motive</h1>
             <p className="py-6">
-              Your AI assistant for budget-friendly planning and booking. Let
-              Motive handle the details while you focus on the experience.
+              Your AI assistant for budget-friendly customized activity
+              planning. Let Motive handle the details while you focus on the
+              experience.
             </p>
             <Link to="/maps" className="btn btn-primary">
               Get Started
@@ -50,7 +51,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-center mb-12">
             Why Choose Motive?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="card bg-base-100 shadow-xl">
               <div className="card-body items-center text-center">
                 <DollarSign className="w-12 h-12 text-primary mb-4" />
@@ -68,16 +69,6 @@ export default function HomePage() {
                 <p>
                   Let our AI create the perfect itinerary based on your
                   preferences and time constraints.
-                </p>
-              </div>
-            </div>
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body items-center text-center">
-                <Plane className="w-12 h-12 text-primary mb-4" />
-                <h3 className="card-title">Seamless Booking</h3>
-                <p>
-                  Book flights, hotels, and activities directly through our
-                  platform with ease.
                 </p>
               </div>
             </div>
