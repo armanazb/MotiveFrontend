@@ -19,6 +19,7 @@ export default function ChatbotSearch() {
 
   const placesService = useRef(null); // Ref for PlacesService
   const [distances, setDistances] = useState([]); // State to store distances
+  const [groupType, setGroupType] = useState('1 person'); // State to store the group type
 
   const googleMapsApiKey = 'AIzaSyAAAG-NRSBgZJeJPa6mPlzIrsAO0_5lN30';
 
@@ -183,6 +184,22 @@ export default function ChatbotSearch() {
             
             {/* Filters Section */}
             <h2 className="text-lg font-semibold mb-4">Search Filters</h2>
+
+            {/* Group Type Dropdown */}
+            <div className="mb-4">
+              <h3 className="text-sm font-medium mb-2">Group Type</h3>
+              <select
+                className="select select-bordered w-full"
+                value={groupType}
+                onChange={(e) => setGroupType(e.target.value)}
+              >
+                <option value="1 person">1 Person</option>
+                <option value="2 people">2 People</option>
+                <option value="3 people">3 People</option>
+                <option value="4 people">4 People</option>
+                <option value="4+ people">4+ People</option>
+              </select>
+            </div>
 
             {/* Preset Activity Buttons */}
             <div className="mb-4">
