@@ -1,5 +1,5 @@
 const enviroment = {
-    devApi: 'http://localhost:3000',
+    devApi: 'http://127.0.0.1:5000',
     productionApi: "https://your-api-base-url.com"
 
 }

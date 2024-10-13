@@ -17,6 +17,10 @@ axiosInstance.interceptors.request.use(
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
+    if (!token) {
+      window.location.href = "/login";
+    }
+
     return config;
   },
   (error) => {
