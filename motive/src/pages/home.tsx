@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Calendar, DollarSign, Plane, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
-
+import 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

@@ -1,16 +1,37 @@
+
+import React, { useState } from "react";
+import Navbar from "../components/navbar";
+import RegisterUser from "../services/signup";
+import { toast } from "react-toastify";
+
+export default function SignupPage() {
+  //   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { sendRegistrationData } = RegisterUser();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    try {
+      // Call the login function with the email and password
+      await sendRegistrationData(email, password);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } catch (error) {
+      // Handle any errors (e.g., display a notification or alert)
+      toast.error("Signup failed");
+      console.error("Login failed", error);
+    }
+
 import React, { useState } from 'react';
 import Navbar from "../components/navbar";
 
 export default function SignupPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle signup logic here
-    console.log('Sign-up attempt with:', { username, email, password });
-  };
+  const [password, setPassword] = useState('')
 
   return (
     <>
@@ -25,7 +46,11 @@ export default function SignupPage() {
               <label className="label" htmlFor="username">
                 <span className="label-text">Username</span>
               </label>
+
+              {/* <input
+=======
               <input
+
                 type="text"
                 id="username"
                 placeholder="username"
@@ -33,7 +58,11 @@ export default function SignupPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+
+              /> */}
+
               />
+
             </div>
 
             {/* Email Field */}
@@ -70,11 +99,26 @@ export default function SignupPage() {
 
             {/* Submit Button */}
             <div className="form-control mt-6">
+
+              <button type="submit" className="btn btn-primary">
+                Sign Up
+              </button>
+            </div>
+
+            <div className="text-center mt-4">
+              <p>
+                Already have an account?{" "}
+                <a href="/login" className="text-blue-500">
+                  Login here
+                </a>
+              </p>
+=======
               <button type="submit" className="btn btn-primary">Sign Up</button>
             </div>
 
             <div className="text-center mt-4">
               <p>Already have an account? <a href="/login" className="text-blue-500">Login here</a></p>
+
             </div>
           </form>
         </div>

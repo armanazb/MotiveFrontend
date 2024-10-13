@@ -1,23 +1,33 @@
-import { useState } from 'react';
-import { Mail, User, CreditCard, Trash2 } from 'lucide-react';
-import Navbar from '../components/navbar';
+import { useState } from "react";
+import { Mail, User, CreditCard, Trash2 } from "lucide-react";
+import Navbar from "../components/navbar";
+import axios from "axios";
+import axiosInstance from "../libs/interceptor";
 
 export default function ProfilePage() {
-  const [email, setEmail] = useState('user@example.com');
-  const [firstName, setFirstName] = useState('John');
-  const [lastName, setLastName] = useState('Doe');
+  const [email, setEmail] = useState("user@example.com");
+  const [firstName, setFirstName] = useState("John");
+  const [lastName, setLastName] = useState("Doe");
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Profile updated:', { email, firstName, lastName });
+    console.log("Profile updated:", { email, firstName, lastName });
   };
 
   const handleDeleteAccount = () => {
-    console.log('Account deletion requested');
+    console.log("Account deletion requested");
+  };
+
+  const logout = () => {
+    console.log("Logout requested");
+    axiosInstance.post("/api/logout").then(() => {
+      localStorage.removeItem("authToken");
+      window.location.href = "/login";
+    });
   };
 
   const handleManageSubscription = () => {
-    console.log('Manage subscription requested');
+    console.log("Manage subscription requested");
   };
 
   return (
@@ -111,6 +121,12 @@ export default function ProfilePage() {
               >
                 <Trash2 className="w-5 h-5 mr-2" />
                 Delete Account
+              </button>
+              <button
+                className="btn btn-outline btn-error flex items-center flex-1"
+                onClick={logout}
+              >
+                Logout
               </button>
             </div>
           </div>

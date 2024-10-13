@@ -15,10 +15,13 @@ export default function ChatbotSearch() {
   const [budget, setBudget] = useState(500); // Budget state with default value
   const mapRef = useRef(null); // Ref for the map div
   const mapInstance = useRef(null); // Ref to hold the map instance
+  const geocoder = useRef(null); // Ref for the Geocoder instance
+
   const placesService = useRef(null); // Ref for PlacesService
   const [distances, setDistances] = useState([]); // State to store distances
 
   const googleMapsApiKey = 'AIzaSyAAAG-NRSBgZJeJPa6mPlzIrsAO0_5lN30';
+
 
   useEffect(() => {
     const loader = new Loader({
