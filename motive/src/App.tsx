@@ -7,7 +7,10 @@ import ChatbotSearch from "./pages/maps";
 import ContactPage from "./pages/contact";
 import FeaturesPage from "./pages/features";
 import ProfilePage from "./pages/profile";
-
+import LoginPage from "./pages/login";
+import SignupPage from "./pages/signup";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div>
@@ -18,7 +21,14 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+      />
     </div>
   );
 }

@@ -21,12 +21,7 @@ export default function ChatbotSearch() {
   const mapInstance = useRef(null); // Ref to hold the map instance
   const geocoder = useRef(null); // Ref for the Geocoder instance
 
-
-  
-  const googleMapsApiKey = '';
-
-
-
+  const googleMapsApiKey = "";
 
   useEffect(() => {
     const loader = new Loader({
