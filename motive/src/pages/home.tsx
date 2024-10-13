@@ -84,7 +84,7 @@ export default function HomePage() {
           <p className="mb-8">
             Sign up now and let Motive handle the details of your perfect trip.
           </p>
-          <Link to="/get-started" className="btn btn-secondary btn-lg">
+          <Link to="/maps" className="btn btn-secondary btn-lg">
             Get Started for Free
           </Link>
         </div>

@@ -214,7 +214,7 @@ export default function ChatbotSearch() {
   const getPriceLevel = (priceLevel) => {
     switch (priceLevel) {
       case 0:
-        return "Unknown"; // Free places with no cost
+        return "may vary"; // Free places with no cost
       case 1:
         return "$ (Inexpensive)"; // Inexpensive places
       case 2:
@@ -277,7 +277,9 @@ export default function ChatbotSearch() {
 
             {/* Preset Activity Buttons */}
             <div className="mb-4">
-              <h3 className="text-sm font-medium mb-2">Select an Activity</h3>
+              <h3 className="text-sm font-medium mb-2">
+                Select an Activity if needed
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {[
                   "Indoor",

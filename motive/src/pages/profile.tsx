@@ -32,9 +32,11 @@ export default function ProfilePage() {
 
   async function saveProfileChanges() {
     try {
+      const userId = localStorage.getItem("user_id");
+
       const response = await axiosInstance.post(
         "/api/profile/update",
-        JSON.stringify({ firstName, lastName }),
+        JSON.stringify({ firstName, lastName, userId }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -78,7 +80,7 @@ export default function ProfilePage() {
         <div className="card bg-base-100 shadow-xl max-w-2xl mx-auto">
           <div className="card-body">
             <form onSubmit={handleSave}>
-              <div className="form-control mt-4">
+              {/* <div className="form-control mt-4">
                 <label className="label" htmlFor="firstName">
                   <span className="label-text">First Name</span>
                 </label>
@@ -96,9 +98,9 @@ export default function ProfilePage() {
                     required
                   />
                 </div>
-              </div>
+              </div> */}
 
-              <div className="form-control mt-4">
+              {/* <div className="form-control mt-4">
                 <label className="label" htmlFor="lastName">
                   <span className="label-text">Last Name</span>
                 </label>
@@ -116,7 +118,7 @@ export default function ProfilePage() {
                     required
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* Slide Switch for Theme Toggle */}
               <div className="flex justify-end items-center mt-6">
@@ -135,13 +137,13 @@ export default function ProfilePage() {
               </div>
 
               <div className="form-control mt-6">
-                <button
+                {/* <button
                   type="submit"
                   className="btn btn-primary"
                   onClick={saveProfileChanges}
                 >
                   Save Changes
-                </button>
+                </button> */}
               </div>
             </form>
 

@@ -24,7 +24,7 @@ const LoginUser = () => {
       if ( res.access_token) {
         // Store the token (in localStorage, sessionStorage, etc., depending on your needs)
         localStorage.setItem('authToken',  res.access_token);
-
+        localStorage.setItem('user_id', res.user.id)
         // Redirect the user to the desired page after registration
         navigate('/'); // Redirect to a welcome page or any other pag
         toast.success("Login successful");

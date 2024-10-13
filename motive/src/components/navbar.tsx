@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, CogIcon } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,7 +47,9 @@ const Navbar = () => {
             </li>
             {auth === true && (
               <li>
-                <Link to="/profile">Profile</Link>
+                <Link to="/profile">
+                  <CogIcon />
+                </Link>
               </li>
             )}
             {auth === false ? (
