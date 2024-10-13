@@ -9,8 +9,12 @@ import FeaturesPage from "./pages/features";
 import ProfilePage from "./pages/profile";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+
 function App() {
   return (
     <div>

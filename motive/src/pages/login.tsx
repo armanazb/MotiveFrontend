@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import LoginUser from "../services/login";
@@ -20,6 +21,22 @@ export default function LoginPage() {
       console.error("Login failed", error);
     }
   };
+
+import React, { useState } from 'react';
+import Navbar from "../components/navbar";
+
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle login logic here
+    console.log('Login attempt with:', { email, password });
+  };
+
+
   return (
     <>
       <Navbar />
@@ -56,16 +73,27 @@ export default function LoginPage() {
               />
             </div>
             <div className="form-control mt-6">
+
               <button type="submit" className="btn btn-primary">
                 Login
               </button>
             </div>
             <div className="text-center mt-4">
               <a href="/signup">Don't have an account?</a>
+
+              <button type="submit" className="btn btn-primary">Login</button>
+            </div>
+            <div className="text-center mt-4">
+                <a href='/signup'>Don't have an account?</a> 
+
             </div>
           </form>
         </div>
       </div>
     </>
   );
+
 }
+
+}
+
