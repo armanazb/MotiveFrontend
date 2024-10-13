@@ -7,6 +7,8 @@ import ChatbotSearch from "./pages/maps";
 import ContactPage from "./pages/contact";
 import FeaturesPage from "./pages/features";
 import ProfilePage from "./pages/profile";
+import LoginPage from "./pages/login";
+import SignupPage from "./pages/signup";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </div>
   );
