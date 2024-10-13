@@ -6,6 +6,8 @@ import "./App.css";
 import ChatbotSearch from "./pages/maps";
 import ContactPage from "./pages/contact";
 import FeaturesPage from "./pages/features";
+import ProfilePage from "./pages/profile";
+
 function App() {
   return (
     <div>
@@ -15,6 +17,7 @@ function App() {
         <Route path="/maps" element={<ChatbotSearch />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );

@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="container mx-auto">
         <div className="flex-1">
           <Link
-            to="/home"
+            to="/"
             className="btn btn-ghost normal-case text-xl text-white -ml-20"
           >
             Motive
@@ -37,6 +37,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link to="/Contact">Contact</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
             </li>
           </ul>
         </div>
