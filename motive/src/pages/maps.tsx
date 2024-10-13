@@ -16,6 +16,7 @@ export default function ChatbotSearch() {
   const mapRef = useRef(null); // Ref for the map div
   const mapInstance = useRef(null); // Ref to hold the map instance
   const placesService = useRef(null); // Ref for PlacesService
+  const [distances, setDistances] = useState([]); // State to store distances
 
   const googleMapsApiKey = 'AIzaSyAAAG-NRSBgZJeJPa6mPlzIrsAO0_5lN30';
 
@@ -23,7 +24,7 @@ export default function ChatbotSearch() {
     const loader = new Loader({
       apiKey: googleMapsApiKey,
       version: 'weekly',
-      libraries: ['places'], // Ensure the Places library is included
+      libraries: ['places', 'geometry'], // Load geometry library
     });
 
     loader.load().then(() => {
@@ -117,13 +118,24 @@ export default function ChatbotSearch() {
         mapInstance.current.clearOverlays?.();
 
         // Add markers for each result
+        const distancesArray = [];
         results.forEach((place) => {
           new google.maps.Marker({
             position: place.geometry.location,
             map: mapInstance.current,
             title: place.name,
           });
+
+          // Calculate distance if current location is available
+          if (currentLocation) {
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(
+              new google.maps.LatLng(currentLocation),
+              place.geometry.location
+            );
+            distancesArray.push((distance / 1000).toFixed(2)); // Distance in kilometers
+          }
         });
+        setDistances(distancesArray);
 
         // Fit the map to show all results
         const bounds = new google.maps.LatLngBounds();
@@ -248,9 +260,14 @@ export default function ChatbotSearch() {
               <h3 className="text-sm font-medium mb-2">Search Results</h3>
               {searchResults.map((result, index) => (
                 <div key={index} className="card bg-base-200 shadow-sm mb-2">
-                  <div className="card-body p-4">
-                    <h4 className="card-title text-sm">{result.name}</h4>
-                    <p className="text-xs">{result.vicinity}</p>
+                  <div className="card-body p-4 flex justify-between">
+                    <div>
+                      <h4 className="card-title text-sm">{result.name}</h4>
+                      <p className="text-xs">{result.vicinity}</p>
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {distances[index] ? `${distances[index]} km away` : ''}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -295,4 +312,3 @@ export default function ChatbotSearch() {
     </div>
   );
 }
-
