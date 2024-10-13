@@ -35,7 +35,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/motive-app.git
+git clone https://github.com/Wruqe/Motive.git
 cd motive-app
 Install dependencies:
 
