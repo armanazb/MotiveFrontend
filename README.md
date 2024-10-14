@@ -1,3 +1,5 @@
+<img width="904" alt="image" src="https://github.com/user-attachments/assets/fad88125-af3e-4393-bb4e-69f7aa007125">
+
 Motive - Full-Stack React App
 Motive is a full-stack React application designed to simplify trip planning by allowing users to search for places based on budget, group size, and location. The app integrates Google Maps for location-based results and offers an optional AI chatbot to assist users with personalized suggestions.
 
